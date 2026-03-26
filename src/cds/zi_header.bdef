@@ -1,0 +1,88 @@
+managed implementation in class zbp_zi_header unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_HEADER alias PurchaseOrder
+persistent table zda_header
+draft table zda_header_d
+lock master total etag LocalLastChangedAt
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  field ( numbering : managed, readonly ) OrderUuid;
+  field ( readonly ) CreatedBy, CreatedAt, LastChangedBy, LastChangedAt;
+  field ( readonly ) OrderId;
+  field ( mandatory : create ) Supplier;
+
+  create ( authorization : global );
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare
+  {
+    validation validateStatus;
+  }
+
+  validation validateStatus   on save { create; update; }
+  determination setDefaultStatus on modify { create; }
+  determination setOrderId       on modify { create; }
+
+  association _Items { create; with draft; }
+
+  mapping for zda_header corresponding
+  {
+    OrderUuid          = order_uuid;
+    OrderId            = order_id;
+    Supplier           = supplier;
+    TotalAmount        = total_amount;
+    CurrencyCode       = currency_code;
+    OrderStatus        = order_status;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_ITEM alias PurchaseOrderItem
+persistent table zda_item
+draft table zda_item_d
+lock dependent by _PurchaseOrder
+authorization dependent by _PurchaseOrder
+etag master LocalLastChangedAt
+{
+  field ( numbering : managed, readonly ) ItemUuid;
+  field ( readonly ) OrderUuid;
+  field ( mandatory ) Material, Quantity;
+
+  update;
+  delete;
+
+  determination calculateItemAmount on modify { create; update; }
+  determination calculateTotalAmount on modify { create; update; delete; }
+
+  association _PurchaseOrder { with draft; }
+
+  mapping for zda_item corresponding
+  {
+    ItemUuid           = item_uuid;
+    OrderUuid          = order_uuid;
+    ItemId             = item_id;
+    Material           = material;
+    Quantity           = quantity;
+    UnitOfMeasure      = unit_of_measure;
+    UnitPrice          = unit_price;
+    CurrencyCode       = currency_code;
+    ItemAmount         = item_amount;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

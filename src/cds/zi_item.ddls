@@ -1,0 +1,38 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'PO Item - Interface View'
+
+define view entity ZI_ITEM
+  as select from zda_item as i
+
+  association to parent ZI_HEADER as _PurchaseOrder
+    on $projection.OrderUuid = _PurchaseOrder.OrderUuid
+
+{
+  key i.item_uuid             as ItemUuid,
+      i.order_uuid            as OrderUuid,
+      i.item_id               as ItemId,
+      i.material              as Material,
+
+      @Semantics.quantity.unitOfMeasure: 'UnitOfMeasure'
+      i.quantity              as Quantity,
+      i.unit_of_measure       as UnitOfMeasure,
+
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      i.unit_price            as UnitPrice,
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      i.item_amount           as ItemAmount,
+      i.currency_code         as CurrencyCode,
+
+      @Semantics.user.createdBy: true
+      i.created_by            as CreatedBy,
+      @Semantics.systemDateTime.createdAt: true
+      i.created_at            as CreatedAt,
+      @Semantics.user.lastChangedBy: true
+      i.last_changed_by       as LastChangedBy,
+      @Semantics.systemDateTime.lastChangedAt: true
+      i.last_changed_at       as LastChangedAt,
+      @Semantics.systemDateTime.localInstanceLastChangedAt: true
+      i.local_last_changed_at as LocalLastChangedAt,
+
+      _PurchaseOrder
+}

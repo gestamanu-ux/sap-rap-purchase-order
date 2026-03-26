@@ -40,3 +40,9 @@ DRAFT → SUBMITTED → APPROVED
 - OData V4
 - SAP Fiori Elements
 - Eclipse ADT
+
+<img width="1850" height="494" alt="image" src="https://github.com/user-attachments/assets/32af2606-f550-4fd9-8ba2-21dc018dbcc9" />
+
+<img width="1860" height="760" alt="image" src="https://github.com/user-attachments/assets/421de674-0950-4c4a-9b92-d0779b5a68e0" />
+
+

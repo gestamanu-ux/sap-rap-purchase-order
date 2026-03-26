@@ -1,2 +1,42 @@
-# sap-rap-purchase-order
-Proyecto de portafolio desarrollado con ABAP RESTful  Application Programming Model (RAP) en SAP BTP ABAP Environment.
+# SAP RAP — Purchase Order Service
+
+Proyecto de portafolio desarrollado con ABAP RESTful 
+Application Programming Model (RAP) en SAP BTP ABAP Environment.
+
+## Arquitectura
+
+| Objeto | Nombre | Descripción |
+|---|---|---|
+| Tabla | ZDA_HEADER | Cabecera del pedido |
+| Tabla | ZDA_ITEM | Posiciones del pedido |
+| Interface View | ZI_HEADER | CDS raíz con composición |
+| Interface View | ZI_ITEM | CDS items |
+| Consumption View | ZC_HEADER | Vista con anotaciones UI |
+| Consumption View | ZC_ITEMSPO | Vista items con anotaciones UI |
+| BDEF | ZI_HEADER | Managed + Draft Handling |
+| Service Definition | ZSD_PURCHASE_ORDER | Exposición del servicio |
+| Service Binding | ZSB_PURCHASE_ORDER | OData V4 UI |
+
+## Funcionalidades
+
+- CRUD completo de órdenes de compra
+- Draft Handling para edición segura
+- Validación de estados: DRAFT / SUBMITTED / APPROVED / REJECTED
+- Numeración automática de OrderId
+- Status por defecto DRAFT al crear
+- Cálculo automático de ItemAmount y TotalAmount
+- Autorización global e instancia
+- Fiori Elements app generada automáticamente
+
+## Flujo de estados
+
+DRAFT → SUBMITTED → APPROVED
+                 ↘ REJECTED → DRAFT
+
+## Stack técnico
+
+- SAP BTP ABAP Environment
+- ABAP RAP (Managed BO con Draft)
+- OData V4
+- SAP Fiori Elements
+- Eclipse ADT

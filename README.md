@@ -3,6 +3,12 @@
 Proyecto de portafolio desarrollado con ABAP RESTful 
 Application Programming Model (RAP) en SAP BTP ABAP Environment.
 
+✅ RAP managed BO con draft handling
+✅ CDS views con composición
+✅ BDEF con validaciones y determinaciones
+✅ OData V4
+✅ Fiori Elements
+
 ## Arquitectura
 
 | Objeto | Nombre | Descripción |
